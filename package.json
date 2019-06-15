@@ -1,9 +1,9 @@
 {
-  "name": "template",
+  "name": "Irregular-verbs",
   "version": "0.0.1",
-  "description": "template project for fast dev",
-  "productName": "template",
-  "cordovaId": "template",
+  "description": "Irregular-verbs project for fast dev",
+  "productName": "Irregular-verbs",
+  "cordovaId": "Irregular-verbs",
   "author": "Neageadon <legoog.tsop@gmail.com>",
   "private": true,
   "scripts": {
@@ -15,6 +15,7 @@
     "@quasar/extras": "^1.0.0",
     "quasar": "^1.0.0-beta.0",
     "vue": "latest",
+    "vuedraggable": "^2.21.0",
     "vuex": "latest"
   },
   "devDependencies": {

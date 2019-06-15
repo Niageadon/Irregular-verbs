@@ -1,6 +1,7 @@
 
 const routes = [
-  { path: '/Authentication', component: () => import('pages/system/authentication.vue') }
+  { path: '/Authentication', component: () => import('pages/system/authentication.vue') },
+  { path: '/hey', component: () => import('pages/learningPage.vue') }
 
 ]
 
@@ -8,7 +9,7 @@ const routes = [
 if (process.env.MODE !== 'ssr') {
   routes.push({
     path: '*',
-    component: () => import('pages/Error404.vue')
+    component: () => import('pages/system/Error404.vue')
   })
 }
 
