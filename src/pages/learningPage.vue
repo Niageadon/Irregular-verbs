@@ -26,7 +26,7 @@
       </div>
       <!--------------------------------------------------->
       <div class="contentItem col-xs-5 col-md-5 q-my-xs">
-        <div class="dragBox" >Past Participle
+        <div class="dragBox" >Participle
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="answer.pastParticiple" v-bind="getPPOption">
               <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in answer.pastParticiple" :key="index"> {{item.name}}
