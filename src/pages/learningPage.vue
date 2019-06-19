@@ -53,9 +53,9 @@
     <!-------------------------------------------------------->
     <q-btn @click="generateRandomWord">Next</q-btn>
     <q-separator class="col-12 q-mt-md" color="orange" inset></q-separator>
-    <draggable v-model="list1" class="contentContainer col-12 row q-mt-lg justify-around" v-bind="getVariantOption" >
-      <q-card v-for="(item, index) in list1" :key="index" outlined rounded class="col-xs-5 col-md-5 draggableItem" >
-        {{item.name}}
+    <draggable v-model="answerVariants" class="contentContainer col-12 row q-mt-lg justify-around q-gutter-md" v-bind="getVariantOption" >
+      <q-card v-for="(item, index) in answerVariants" :key="index" outlined rounded class="col-xs-5 col-md-5 draggableItem" >
+        {{item}}
       </q-card>
     </draggable>
   </div>
@@ -79,7 +79,7 @@ export default {
       answer: { present: [], past: [], pastParticiple: [], translate: [] },
       putOption: { present: true, past: true, pastParticiple: true, translate: true },
       pullOption: { present: true, past: true, pastParticiple: true, translate: true },
-      list1: [ { name: 'suka3' }, { name: 'suka2' } ]
+      answerVariants: []
     }
   },
   methods: {
@@ -91,7 +91,38 @@ export default {
       this.pullOption[types[openedType]] = false
       this.putOption[types[openedType]] = false
       this.answer[types[openedType]].push(this.irregularVerbs[currentItem][types[openedType]])
-      // console.log('maxIndex', maxIndex, 'currentItem', currentItem)
+      //
+      this.answerVariants.push(...this.getVariantsForAnswer(maxIndex, currentItem))
+      // this.answerVariants.sort(this.compareRandom)
+    },
+    getVariantsForAnswer (maxIndex, currentItem) {
+      let variants = []
+      variants.push(this.irregularVerbs[currentItem].past)
+      variants.push(this.irregularVerbs[currentItem].pastParticiple)
+      variants.push(this.irregularVerbs[currentItem].present)
+      variants.push(this.irregularVerbs[currentItem].translate)
+      variants.push(...this.irregularVerbs[currentItem].fakes)
+      const randomWords = this.getTwoRandomTranslates(maxIndex, currentItem)
+      variants.push(...randomWords)
+      return variants
+    },
+    getTwoRandomTranslates (maxIndex, currentItem) {
+      // функция возвращает два string-а со случайными переводами
+      // если индекс совпадает с имеющимся, то результат удаляется, операция повторяется
+      let subItems = []
+      let index = []
+      for (let i = 0; i < 2; i++) {
+        let random = Math.floor(Math.random() * (maxIndex + 1))
+        if (random === currentItem) { i--; continue }
+        if ((i > 0) && (index[i] === index[i - 1])) { i--; continue }
+        index.push(random)
+      }
+      subItems.push(this.irregularVerbs[index[0]].translate)
+      subItems.push(this.irregularVerbs[index[1]].translate)
+      return subItems
+    },
+    compareRandom (a, b) {
+      return Math.random() - 0.5
     }
   },
   computed: {
@@ -99,7 +130,7 @@ export default {
       return {
         group: {
           name: 'present',
-          pull: this.putOption.present, // отдача
+          pull: this.pullOption.present, // отдача
           put: this.putOption.present // this.enablePut  //приём
         },
         animation: 300,
@@ -110,7 +141,7 @@ export default {
       return {
         group: {
           name: 'past',
-          pull: this.putOption.past, // отдача
+          pull: this.pullOption.past, // отдача
           put: this.putOption.past // this.enablePut  //приём
         },
         animation: 300,
@@ -121,7 +152,7 @@ export default {
       return {
         group: {
           name: 'pastParticiple',
-          pull: this.putOption.pastParticiple, // отдача
+          pull: this.pullOption.pastParticiple, // отдача
           put: this.putOption.pastParticiple // this.enablePut  //приём
         },
         animation: 300,
@@ -132,7 +163,7 @@ export default {
       return {
         group: {
           name: 'translate',
-          pull: this.putOption.translate, // отдача
+          pull: this.pullOption.translate, // отдача
           put: this.putOption.translate // this.enablePut  //приём
         },
         animation: 300,
