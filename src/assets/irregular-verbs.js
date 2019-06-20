@@ -1,7 +1,7 @@
 export default [
-  { present: 'say', past: 'said', pastParticiple: 'said', translate: 'говорить', fakes: ['saiden', 'boba', 'baba'] },
-  { present: 'make', past: 'made', pastParticiple: 'made', translate: 'делать', fakes: ['biba', 'boba', 'baba'] },
-  { present: 'go', past: 'went', pastParticiple: 'gone', translate: 'идти, ходить', fakes: ['biba', 'boba', 'baba'] },
+  { present: 'say', past: 'said', pastParticiple: 'said', translate: 'говорить', fakes: ['saiden', 'sayd', 'sai'] },
+  { present: 'make', past: 'made', pastParticiple: 'made', translate: 'делать', fakes: ['maked', 'maded', 'makes'] },
+  { present: 'go', past: 'went', pastParticiple: 'gone', translate: 'идти, ходить', fakes: ['gon', 'wented', 'boba'] },
   { present: 'take', past: 'took', pastParticiple: 'taken', translate: 'брать', fakes: ['biba', 'boba', 'baba'] },
   { present: 'come', past: 'came', pastParticiple: 'come', translate: 'приходить', fakes: ['biba', 'boba', 'baba'] },
   { present: 'see', past: 'saw', pastParticiple: 'seen', translate: 'видеть, смотреть', fakes: ['biba', 'boba', 'baba'] },

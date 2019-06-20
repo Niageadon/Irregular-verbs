@@ -1,11 +1,13 @@
 <template>
-  <div class="row q-ma-md justify-center ">
-    <div class="contentContainer row col-12 justify-around">
-      <div class="contentItem col-xs-5 col-md-5 q-my-xs">
+  <div class="row q-ma-md justify-center">
+    <div class=" contentContainer row col-12 justify-around ">
+      <div  class=" contentItem col-xs-5 col-md-5 q-my-xs"
+            :class="{success: (answerValidation.present && answerValidation.validationDone),
+            fail: (!answerValidation.present && answerValidation.validationDone)}">
         <div class="dragBox">Present
           <div class="contentBox">
-            <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="answer.present">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in answer.present" :key="index"> {{item.name}}
+            <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="userAnswer.present">
+              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
                 {{item}}
               </q-card>
             </draggable>
@@ -13,11 +15,13 @@
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-xs-5 col-md-5 q-my-xs">
+      <div class="contentItem col-xs-5 col-md-5 q-my-xs"
+           :class="{success: (answerValidation.past && answerValidation.validationDone),
+            fail: (!answerValidation.past && answerValidation.validationDone)}">
         <div class="dragBox" >Past
           <div class="contentBox">
-            <draggable class="dragBox" @change="putOption['past'] = !putOption['past']" v-model="answer.past" v-bind="getPastOption">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in answer.past" :key="index"> {{item.name}}
+            <draggable class="dragBox" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
+              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
               {{item}}
               </q-card>
             </draggable>
@@ -25,11 +29,13 @@
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-xs-5 col-md-5 q-my-xs">
+      <div class="contentItem col-xs-5 col-md-5 q-my-xs"
+           :class="{success: (answerValidation.pastParticiple && answerValidation.validationDone),
+            fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">
         <div class="dragBox" >Participle
           <div class="contentBox">
-            <draggable class="dragBox" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="answer.pastParticiple" v-bind="getPPOption">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in answer.pastParticiple" :key="index"> {{item.name}}
+            <draggable class="dragBox" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
+              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
                 {{item}}
               </q-card>
             </draggable>
@@ -37,24 +43,28 @@
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-xs-5 col-md-5 q-my-xs">
+      <div class="contentItem col-xs-5 col-md-5 q-my-xs"
+           :class="{success: (answerValidation.translate && answerValidation.validationDone),
+            fail: (!answerValidation.translate && answerValidation.validationDone)}">
         <div class="dragBox">Translate
           <div class="contentBox">
-            <draggable class="dragBox" @change="putOption['translate'] = !putOption['translate']" v-model="answer.translate" v-bind="getTranslateOption">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in answer.translate" :key="index"> {{item.name}}
+            <draggable class="dragBox" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
+              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index"> {{item.name}}
                 {{item}}
               </q-card>
             </draggable>
           </div>
         </div>
       </div>
-    </div> <!--answer blank-->
+    </div> <!--userAnswer blank-->
     <!-------------------------------------------------------->
     <!-------------------------------------------------------->
-    <q-btn @click="generateRandomWord">Next</q-btn>
+    <q-btn @click="validateAnswer" :disable="answerValidation.validationDone" class="q-mt-md col-md-2 col-xs-4 q-mx-sm">{{buttonMode}}</q-btn>
+    <q-btn @click="nextWord" :disable="!answerValidation.validationDone" class="q-mt-md col-md-2 col-xs-4 q-mx-sm">Next</q-btn>
     <q-separator class="col-12 q-mt-md" color="orange" inset></q-separator>
-    <draggable v-model="answerVariants" class="contentContainer col-12 row q-mt-lg justify-around q-gutter-md" v-bind="getVariantOption" >
-      <q-card v-for="(item, index) in answerVariants" :key="index" outlined rounded class="col-xs-5 col-md-5 draggableItem" >
+    <div>{{answerValidation}}</div>
+    <draggable v-model="variantsToChose" class="contentContainer row col-12  q-mt-lg justify-around" v-bind="getVariantOption" >
+      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="col-xs-5 col-md-5 q-my-xs draggableItem" >
         {{item}}
       </q-card>
     </draggable>
@@ -70,16 +80,19 @@ export default {
   /*
   * 1 этап - генерация случайного индекса для массива глаголов {method: generateRandomWord()}
   * 2 этап - генерация ответа для одного случайного элемента бланка
-  * 3 этап - заполнение бланка ответа {data: answer}
+  * 3 этап - заполнение бланка ответа {data: userAnswer}
   * 4 этап - валидация ответа
   * */
   data () {
     return {
       irregularVerbs: verbs,
-      answer: { present: [], past: [], pastParticiple: [], translate: [] },
+      userAnswer: { present: [], past: [], pastParticiple: [], translate: [] },
       putOption: { present: true, past: true, pastParticiple: true, translate: true },
       pullOption: { present: true, past: true, pastParticiple: true, translate: true },
-      answerVariants: []
+      variantsToChose: [],
+      correctAnswer: {},
+      answerValidation: { present: false, past: false, pastParticiple: false, translate: false, validationDone: false },
+      buttonMode: 'Check'
     }
   },
   methods: {
@@ -88,12 +101,12 @@ export default {
       const currentItem = Math.floor(Math.random() * (maxIndex + 1))
       const types = ['present', 'past', 'pastParticiple', 'translate']
       const openedType = Math.floor(Math.random() * 4)
+      this.correctAnswer = this.irregularVerbs[currentItem]
       this.pullOption[types[openedType]] = false
       this.putOption[types[openedType]] = false
-      this.answer[types[openedType]].push(this.irregularVerbs[currentItem][types[openedType]])
-      //
-      this.answerVariants.push(...this.getVariantsForAnswer(maxIndex, currentItem))
-      // this.answerVariants.sort(this.compareRandom)
+      this.userAnswer[types[openedType]].push(this.irregularVerbs[currentItem][types[openedType]])
+      this.variantsToChose.push(...this.getVariantsForAnswer(maxIndex, currentItem))
+      this.variantsToChose.sort(this.compareRandom)
     },
     getVariantsForAnswer (maxIndex, currentItem) {
       let variants = []
@@ -111,18 +124,42 @@ export default {
       // если индекс совпадает с имеющимся, то результат удаляется, операция повторяется
       let subItems = []
       let index = []
-      for (let i = 0; i < 2; i++) {
+      for (let i = 0; i < 3; i++) {
         let random = Math.floor(Math.random() * (maxIndex + 1))
         if (random === currentItem) { i--; continue }
         if ((i > 0) && (index[i] === index[i - 1])) { i--; continue }
+        if ((i > 1) && (index[i] === index[i - 1]) && (index[i] === index[i - 2])) { i--; continue }
         index.push(random)
       }
       subItems.push(this.irregularVerbs[index[0]].translate)
       subItems.push(this.irregularVerbs[index[1]].translate)
+      subItems.push(this.irregularVerbs[index[2]].translate)
       return subItems
     },
     compareRandom (a, b) {
       return Math.random() - 0.5
+    },
+    validateAnswer () {
+      if (!this.answerNotNull) return // выходим из функции если ответы не заполнены
+      //
+      let userAnswer = this.userAnswer
+      let correctAnswer = this.correctAnswer
+      this.answerValidation.present = (userAnswer.present[0] === correctAnswer.present)
+      this.answerValidation.past = (userAnswer.past[0] === correctAnswer.past)
+      this.answerValidation.pastParticiple = (userAnswer.pastParticiple[0] === correctAnswer.pastParticiple)
+      this.answerValidation.translate = (userAnswer.translate[0] === correctAnswer.translate)
+      this.answerValidation.validationDone = true
+    },
+    nextWord () {
+      this.userAnswer = { present: [], past: [], pastParticiple: [], translate: [] }
+      this.answerValidation = { present: false, past: false, pastParticiple: false, translate: false, validationDone: false }
+      this.putOption = { present: true, past: true, pastParticiple: true, translate: true }
+      this.pullOption = { present: true, past: true, pastParticiple: true, translate: true }
+      this.correctAnswer = {}
+      this.variantsToChose = []
+      this.buttonMode = 'Check'
+      //
+      this.generateRandomWord()
     }
   },
   computed: {
@@ -180,13 +217,25 @@ export default {
         animation: 300,
         sort: false
       }
+    },
+    answerNotNull () {
+      // используется для валидироания, на предмет наличия ответов
+      let answer = []
+      answer.push(this.userAnswer.present.length)
+      answer.push(this.userAnswer.past.length)
+      answer.push(this.userAnswer.pastParticiple.length)
+      answer.push(this.userAnswer.translate.length)
+      let validate = 0
+      answer.forEach(element => {
+        if (element === 1) validate++
+      })
+      return (validate === 4)
     }
   },
   mounted () {
     this.generateRandomWord()
   }
 }
-
 </script>
 
 <style scoped>
@@ -207,6 +256,12 @@ export default {
     min-height: 40px;
     border-radius: 3%;
     text-align: center;
+  }
+  .contentItem.fail{
+    background-color: red;
+  }
+  .contentItem.success{
+    background-color: green;
   }
   .contentBox{
     background-color: rgb(251, 251, 251);
