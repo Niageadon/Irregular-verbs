@@ -1,56 +1,88 @@
 <template>
-  <div class="row q-ma-md justify-center">
-    <div class=" contentContainer row col-12 justify-around ">
-      <div  class=" contentItem col-xs-5 col-md-5 q-my-xs"
+  <div class="row justify-center row" >
+    <div class=" contentContainer row col-xs-12 col-sm-9  justify-around q-mx-auto ">
+      <div class="contentItem col-5 q-my-xs"
             :class="{success: (answerValidation.present && answerValidation.validationDone),
             fail: (!answerValidation.present && answerValidation.validationDone)}">
         <div class="dragBox">Present
           <div class="contentBox">
             <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="userAnswer.present">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
                 {{item}}
+                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.present" transition-show="flip-up" transition-hide="flip-down">
+                  <q-banner class="bg-info text-white">
+                    <template v-slot:avatar>
+                      <q-icon name="info"></q-icon>
+                    </template>
+                    Correct answer is: {{correctAnswer.present}}
+                  </q-banner>
+                </q-popup-proxy>
               </q-card>
             </draggable>
           </div>
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-xs-5 col-md-5 q-my-xs"
+      <div class="contentItem col-5 q-my-xs"
            :class="{success: (answerValidation.past && answerValidation.validationDone),
             fail: (!answerValidation.past && answerValidation.validationDone)}">
         <div class="dragBox" >Past
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
               {{item}}
+                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.past" transition-show="flip-up" transition-hide="flip-down">
+                  <q-banner class="bg-info text-white">
+                    <template v-slot:avatar>
+                      <q-icon name="info"></q-icon>
+                    </template>
+                    Correct answer is: {{correctAnswer.past}}
+                  </q-banner>
+                </q-popup-proxy>
               </q-card>
             </draggable>
           </div>
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-xs-5 col-md-5 q-my-xs"
+      <div class="contentItem col-5 q-my-xs"
            :class="{success: (answerValidation.pastParticiple && answerValidation.validationDone),
             fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">
         <div class="dragBox" >Participle
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
                 {{item}}
+                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.pastParticiple" transition-show="flip-up" transition-hide="flip-down">
+                  <q-banner class="bg-info text-white">
+                    <template v-slot:avatar>
+                      <q-icon name="info"></q-icon>
+                    </template>
+                    Correct answer is: {{correctAnswer.pastParticiple}}
+                  </q-banner>
+                </q-popup-proxy>
               </q-card>
             </draggable>
           </div>
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-xs-5 col-md-5 q-my-xs"
+      <div class="contentItem col-5 q-my-xs"
            :class="{success: (answerValidation.translate && answerValidation.validationDone),
             fail: (!answerValidation.translate && answerValidation.validationDone)}">
         <div class="dragBox">Translate
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
-              <q-card class="col-xs-5 col-md-5 draggableItem" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index"> {{item.name}}
                 {{item}}
+                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.translate" transition-show="flip-up" transition-hide="flip-down">
+                  <q-banner class="bg-info text-white">
+                    <template v-slot:avatar>
+                      <q-icon name="info"></q-icon>
+                    </template>
+                    Correct answer is: {{correctAnswer.translate}}
+                  </q-banner>
+                </q-popup-proxy>
               </q-card>
             </draggable>
           </div>
@@ -59,12 +91,13 @@
     </div> <!--userAnswer blank-->
     <!-------------------------------------------------------->
     <!-------------------------------------------------------->
-    <q-btn @click="validateAnswer" :disable="answerValidation.validationDone" class="q-mt-md col-md-2 col-xs-4 q-mx-sm">{{buttonMode}}</q-btn>
-    <q-btn @click="nextWord" :disable="!answerValidation.validationDone" class="q-mt-md col-md-2 col-xs-4 q-mx-sm">Next</q-btn>
-    <q-separator class="col-12 q-mt-md" color="orange" inset></q-separator>
-    <div>{{answerValidation}}</div>
-    <draggable v-model="variantsToChose" class="contentContainer row col-12  q-mt-lg justify-around" v-bind="getVariantOption" >
-      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="col-xs-5 col-md-5 q-my-xs draggableItem" >
+    <div class="col-xs-12 col-sm-9  justify-around row ">
+    <q-btn @click="validateAnswer" :disable="answerValidation.validationDone" class="q-mt-md col-5 q-mx-sm">{{buttonMode}}</q-btn>
+    <q-btn @click="nextWord" :disable="!answerValidation.validationDone" class="q-mt-md col-5 q-mx-sm">Next</q-btn>
+    </div>
+    <!-------------------------------------------------------->
+    <draggable v-model="variantsToChose" class="variantsContainer row col-sm-9 col-xs-12  q-mt-lg justify-around" v-bind="getVariantOption" >
+      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="col-xs-5 col-md-5 q-my-xs noSelect draggableItem" >
         {{item}}
       </q-card>
     </draggable>
@@ -92,7 +125,7 @@ export default {
       variantsToChose: [],
       correctAnswer: {},
       answerValidation: { present: false, past: false, pastParticiple: false, translate: false, validationDone: false },
-      buttonMode: 'Check'
+      buttonMode: 'Validate'
     }
   },
   methods: {
@@ -141,6 +174,7 @@ export default {
     },
     validateAnswer () {
       if (!this.answerNotNull) return // выходим из функции если ответы не заполнены
+      this.pullOption = { present: false, past: false, pastParticiple: false, translate: false } // запрещаем перемещение элементов
       //
       let userAnswer = this.userAnswer
       let correctAnswer = this.correctAnswer
@@ -157,7 +191,7 @@ export default {
       this.pullOption = { present: true, past: true, pastParticiple: true, translate: true }
       this.correctAnswer = {}
       this.variantsToChose = []
-      this.buttonMode = 'Check'
+      this.buttonMode = 'Validate'
       //
       this.generateRandomWord()
     }
@@ -240,13 +274,26 @@ export default {
 
 <style scoped>
   .dragBox{
-    min-width: 120px;
+    min-width: 100px;
     min-height: 40px;
   }
   .contentContainer{
-    background-color: rgb(206, 206, 206);
-    border-radius: 2%;
-    min-width: 120px;
+    background: #E8DA96;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #E8DA96, #7A6EA0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #7A6EA0, #E8DA96); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-radius: 25px;
+    min-width: 100px;
+    min-height: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .variantsContainer{
+    background: #7A6EA0;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #7A6EA0, #E8DA96);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #7A6EA0, #E8DA96); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    opacity: .8;
+    border-radius: 25px;
+    min-width: 100px;
     min-height: 40px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -254,26 +301,42 @@ export default {
   .contentItem{
     background-color: rgb(226, 226, 226);
     min-height: 40px;
-    border-radius: 3%;
+    border-radius: 15px;
     text-align: center;
   }
   .contentItem.fail{
-    background-color: red;
+    background-color: #98353D;
+    transition: 0.8s;
   }
   .contentItem.success{
-    background-color: green;
+    background-color: #39812D;
+    transition: 0.8s;
   }
   .contentBox{
     background-color: rgb(251, 251, 251);
     min-height: 40px;
-    border-radius: 2%;
-    min-width: 120px;
+    border-radius: 5px;
+    min-width: 100px;
   }
   .draggableItem{
     background-color: rgb(255, 255, 255);
     min-height: 40px;
-    border-radius: 3%;
+    border-radius: 5px;
     text-align: center;
     line-height: 40px;
+
+  }
+  .noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
+  .von{
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>

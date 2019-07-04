@@ -8,6 +8,10 @@
   "private": true,
   "scripts": {
     "dev": "quasar dev",
+    "devPWA": "quasar dev -m pwa",
+    "build": "quasar build",
+    "buildPWA": "quasar build -m pwa",
+    "buildAndroid": "quasar build -m android",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
