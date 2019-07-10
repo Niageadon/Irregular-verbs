@@ -7,7 +7,7 @@
         <div class="dragBox">Present
           <div class="contentBox">
             <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="userAnswer.present">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
                 {{item}}
                 <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.present" transition-show="flip-up" transition-hide="flip-down">
                   <q-banner class="bg-grey-4">
@@ -29,7 +29,7 @@
         <div class="dragBox" >Past
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
               {{item}}
                 <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.past" transition-show="flip-up" transition-hide="flip-down">
                   <q-banner class="bg-info text-white">
@@ -51,7 +51,7 @@
         <div class="dragBox" >Participle
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
                 {{item}}
                 <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.pastParticiple" transition-show="flip-up" transition-hide="flip-down">
                   <q-banner class="bg-info text-white">
@@ -73,7 +73,7 @@
         <div class="dragBox">Translate
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index"> {{item.name}}
                 {{item}}
                 <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.translate" transition-show="flip-up" transition-hide="flip-down">
                   <q-banner class="bg-info text-white">
@@ -96,8 +96,8 @@
     <q-btn @click="nextWord" :disable="!answerValidation.validationDone" class="q-mt-md col-5 q-mx-sm">Next</q-btn>
     </div>
     <!-------------------------------------------------------->
-    <draggable v-model="variantsToChose" class="variantsContainer row col-sm-9 col-xs-12 q-gutter-md  q-mt-lg justify-around" v-bind="getVariantOption" >
-      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="col-xs-5 col-md-5  noSelect draggableItem" >
+    <draggable v-model="variantsToChose" class="variantsContainer  row col-sm-9 col-xs-12 q-gutter-md  q-mt-lg justify-around" v-bind="getVariantOption" >
+      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="draggableItem col-xs-5 col-md-5 noSelect " >
         {{item}}
       </q-card>
     </draggable>
@@ -278,19 +278,25 @@ export default {
     min-height: 40px;
   }
   .contentContainer{
-    background: #E8DA96;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #E8DA96, #7A6EA0);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #7A6EA0, #E8DA96); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #1F2833;
     border-radius: 25px;
     min-width: 100px;
     min-height: 40px;
     padding-top: 20px;
     padding-bottom: 20px;
   }
+  .draggableItem{
+    min-height: 40px;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 40px;
+    background: #45A29E;
+  }
+  .draggableItem.used{
+    background: #66FCF1;
+  }
   .variantsContainer{
-    background: #7A6EA0;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #7A6EA0, #E8DA96);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #7A6EA0, #E8DA96); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #1F2833;
     opacity: .8;
     border-radius: 25px;
     min-width: 100px;
@@ -299,7 +305,7 @@ export default {
     padding-bottom: 20px;
   }
   .contentItem{
-    background-color: rgb(226, 226, 226);
+    background: #C5C6C7;
     min-height: 40px;
     border-radius: 15px;
     text-align: center;
@@ -317,14 +323,6 @@ export default {
     min-height: 40px;
     border-radius: 5px;
     min-width: 100px;
-  }
-  .draggableItem{
-    background-color: rgb(255, 255, 255);
-    min-height: 40px;
-    border-radius: 5px;
-    text-align: center;
-    line-height: 40px;
-
   }
   .noSelect {
     -webkit-touch-callout: none;
