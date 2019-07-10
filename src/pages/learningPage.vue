@@ -10,7 +10,7 @@
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
                 {{item}}
                 <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.present" transition-show="flip-up" transition-hide="flip-down">
-                  <q-banner class="bg-info text-white">
+                  <q-banner class="bg-grey-4">
                     <template v-slot:avatar>
                       <q-icon name="info"></q-icon>
                     </template>
@@ -96,8 +96,8 @@
     <q-btn @click="nextWord" :disable="!answerValidation.validationDone" class="q-mt-md col-5 q-mx-sm">Next</q-btn>
     </div>
     <!-------------------------------------------------------->
-    <draggable v-model="variantsToChose" class="variantsContainer row col-sm-9 col-xs-12  q-mt-lg justify-around" v-bind="getVariantOption" >
-      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="col-xs-5 col-md-5 q-my-xs noSelect draggableItem" >
+    <draggable v-model="variantsToChose" class="variantsContainer row col-sm-9 col-xs-12 q-gutter-md  q-mt-lg justify-around" v-bind="getVariantOption" >
+      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="col-xs-5 col-md-5  noSelect draggableItem" >
         {{item}}
       </q-card>
     </draggable>

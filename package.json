@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "quasar dev",
     "devPWA": "quasar dev -m pwa",
+    "devElectron": "quasar dev -m electron",
     "build": "quasar build",
     "buildPWA": "quasar build -m pwa",
     "buildAndroid": "quasar build -m android",
@@ -27,7 +28,7 @@
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "devtron": "^1.4.0",
-    "electron": "^4.2.4",
+    "electron": "^4.2.6",
     "electron-debug": "^2.2.0",
     "electron-devtools-installer": "^2.2.4",
     "eslint": "^5.10.0",
