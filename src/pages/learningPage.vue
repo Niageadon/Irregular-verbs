@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-center row" >
-    <div class=" contentContainer row col-xs-12 col-sm-9  justify-around q-mx-auto ">
-      <div class="contentItem col-5 q-my-xs"
+    <div class="q-mt-lg contentContainer row col-xs-12 col-sm-9 q-gutter-md justify-around q-mx-auto ">
+      <div class="contentItem col-5 "
             :class="{success: (answerValidation.present && answerValidation.validationDone),
             fail: (!answerValidation.present && answerValidation.validationDone)}">
         <div class="dragBox">Present
@@ -23,7 +23,7 @@
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-5 q-my-xs"
+      <div class="contentItem col-5 "
            :class="{success: (answerValidation.past && answerValidation.validationDone),
             fail: (!answerValidation.past && answerValidation.validationDone)}">
         <div class="dragBox" >Past
@@ -45,7 +45,7 @@
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-5 q-my-xs"
+      <div class="contentItem col-5 "
            :class="{success: (answerValidation.pastParticiple && answerValidation.validationDone),
             fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">
         <div class="dragBox" >Participle
@@ -67,7 +67,7 @@
         </div>
       </div>
       <!--------------------------------------------------->
-      <div class="contentItem col-5 q-my-xs"
+      <div class="contentItem col-5 "
            :class="{success: (answerValidation.translate && answerValidation.validationDone),
             fail: (!answerValidation.translate && answerValidation.validationDone)}">
         <div class="dragBox">Translate
@@ -90,13 +90,13 @@
       </div>
     </div> <!--userAnswer blank-->
     <!-------------------------------------------------------->
-    <!-------------------------------------------------------->
+    <!----------------------buttons--------------------------->
     <div class="col-xs-12 col-sm-9  justify-around row ">
-    <q-btn @click="validateAnswer" :disable="answerValidation.validationDone" class="q-mt-md col-5 q-mx-sm">{{buttonMode}}</q-btn>
-    <q-btn @click="nextWord" :disable="!answerValidation.validationDone" class="q-mt-md col-5 q-mx-sm">Next</q-btn>
+    <q-btn @click="validateAnswer" :disable="answerValidation.validationDone" style="background-color: #4da260" class="q-mt-md col-5 q-mx-sm">{{buttonMode}}</q-btn>
+    <q-btn @click="nextWord" :disable="!answerValidation.validationDone" style="background-color: #4da260" class="q-mt-md col-5 q-mx-sm">Next</q-btn>
     </div>
     <!-------------------------------------------------------->
-    <draggable v-model="variantsToChose" class="variantsContainer  row col-sm-9 col-xs-12 q-gutter-md  q-mt-lg justify-around" v-bind="getVariantOption" >
+    <draggable v-model="variantsToChose" class="variantsContainer q-ma-none row col-sm-9 col-xs-12 q-gutter-md  q-mt-lg justify-around" v-bind="getVariantOption" >
       <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="draggableItem col-xs-5 col-md-5 noSelect " >
         {{item}}
       </q-card>
@@ -290,7 +290,7 @@ export default {
     border-radius: 5px;
     text-align: center;
     line-height: 40px;
-    background: #45A29E;
+    background: #66FCF1;
   }
   .draggableItem.used{
     background: #66FCF1;
