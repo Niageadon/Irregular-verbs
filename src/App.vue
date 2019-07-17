@@ -1,6 +1,6 @@
 <template>
   <q-layout class="bg" view="hhh lpR fFf" id="q-app">
-    <!--<drawer></drawer>-->
+    <drawer></drawer>
     <q-page-container>
       <router-view></router-view>
     </q-page-container>
@@ -8,11 +8,11 @@
 </template>
 
 <script>
-// import drawer from '../src/layouts/system/drawerToolbar'
+import drawer from '../src/pages/system/drawer'
 export default {
   name: 'App',
   components: {
-    // drawer
+    drawer
   }
 }
 </script>
