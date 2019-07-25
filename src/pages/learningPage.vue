@@ -9,14 +9,9 @@
             <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="userAnswer.present">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
                 {{item}}
-                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.present" transition-show="flip-up" transition-hide="flip-down">
-                  <q-banner class="bg-grey-4">
-                    <template v-slot:avatar>
-                      <q-icon name="info"></q-icon>
-                    </template>
-                    Correct answer is: {{correctAnswer.present}}
-                  </q-banner>
-                </q-popup-proxy>
+                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.present" content-class="bg-indigo" :offset="[0, 0]">
+                  Correct answer is: {{correctAnswer.present}}
+                </q-tooltip>
               </q-card>
             </draggable>
           </div>
@@ -31,14 +26,9 @@
             <draggable class="dragBox" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
               {{item}}
-                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.past" transition-show="flip-up" transition-hide="flip-down">
-                  <q-banner class="bg-info text-white">
-                    <template v-slot:avatar>
-                      <q-icon name="info"></q-icon>
-                    </template>
-                    Correct answer is: {{correctAnswer.past}}
-                  </q-banner>
-                </q-popup-proxy>
+                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.past" content-class="bg-indigo" :offset="[0, 0]">
+                  Correct answer is: {{correctAnswer.past}}
+                </q-tooltip>
               </q-card>
             </draggable>
           </div>
@@ -53,14 +43,9 @@
             <draggable class="dragBox" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
                 {{item}}
-                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.pastParticiple" transition-show="flip-up" transition-hide="flip-down">
-                  <q-banner class="bg-info text-white">
-                    <template v-slot:avatar>
-                      <q-icon name="info"></q-icon>
-                    </template>
-                    Correct answer is: {{correctAnswer.pastParticiple}}
-                  </q-banner>
-                </q-popup-proxy>
+                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.pastParticiple" content-class="bg-indigo" :offset="[0, 0]">
+                  Correct answer is: {{correctAnswer.pastParticiple}}
+                </q-tooltip>
               </q-card>
             </draggable>
           </div>
@@ -73,16 +58,12 @@
         <div class="dragBox">Translate
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index">
+                {{item.name}}
                 {{item}}
-                <q-popup-proxy v-if="answerValidation.validationDone && !answerValidation.translate" transition-show="flip-up" transition-hide="flip-down">
-                  <q-banner class="bg-info text-white">
-                    <template v-slot:avatar>
-                      <q-icon name="info"></q-icon>
-                    </template>
-                    Correct answer is: {{correctAnswer.translate}}
-                  </q-banner>
-                </q-popup-proxy>
+                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.translate" content-class="bg-indigo" :offset="[10, 10]">
+                  Correct answer is: {{correctAnswer.translate}}
+                </q-tooltip>
               </q-card>
             </draggable>
           </div>
