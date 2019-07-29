@@ -7,24 +7,29 @@
         <div class="dragBox">Present
           <div class="contentBox">
             <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="userAnswer.present">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.present" :key="index"> {{item.name}}
-                {{item}}
-                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.present" content-class="bg-indigo" :offset="[0, 0]">
-                  Correct answer is: {{correctAnswer.present}}
-                </q-tooltip>
+              <q-card v-on:mouseover="mouseOver" v-on:mouseleave="mouseOver"
+                      class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
+                      v-bind:class="{fail: (!answerValidation.present && answerValidation.validationDone)}"
+                      outlined rounded v-for="(item, index) in userAnswer.present" :key="index">
+                      {{item.name}}
+                      {{item}}
+                <!-- всплывающее окно при наведение на неверный ответ -->
+              </q-card>
+              <q-card v-if="(!answerValidation.present && answerValidation.validationDone && mouse1)" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer">
+                Correct: {{correctAnswer.present}}
               </q-card>
             </draggable>
           </div>
         </div>
       </div>
-      <!--------------------------------------------------->
+      <!--------------------------2------------------------>
       <div class="contentItem col-5 "
            :class="{success: (answerValidation.past && answerValidation.validationDone),
             fail: (!answerValidation.past && answerValidation.validationDone)}">
         <div class="dragBox" >Past
           <div class="contentBox">
             <draggable class="dragBox" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
+              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used q-mx-none" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
               {{item}}
                 <q-tooltip v-if="answerValidation.validationDone && !answerValidation.past" content-class="bg-indigo" :offset="[0, 0]">
                   Correct answer is: {{correctAnswer.past}}
@@ -34,7 +39,7 @@
           </div>
         </div>
       </div>
-      <!--------------------------------------------------->
+      <!--------------------------3------------------------>
       <div class="contentItem col-5 "
            :class="{success: (answerValidation.pastParticiple && answerValidation.validationDone),
             fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">
@@ -51,7 +56,7 @@
           </div>
         </div>
       </div>
-      <!--------------------------------------------------->
+      <!--------------------------4------------------------>
       <div class="contentItem col-5 "
            :class="{success: (answerValidation.translate && answerValidation.validationDone),
             fail: (!answerValidation.translate && answerValidation.validationDone)}">
@@ -78,7 +83,7 @@
     </div>
     <!-------------------------------------------------------->
     <draggable v-model="variantsToChose" class="variantsContainer q-ma-none row col-sm-9 col-xs-12 q-gutter-md  q-mt-lg justify-around" v-bind="getVariantOption" >
-      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="draggableItem col-xs-5 col-md-5 noSelect " >
+      <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="draggableItem col-xs-5 col-md-5 noSelect q-mx-none" >
         {{item}}
       </q-card>
     </draggable>
@@ -99,6 +104,7 @@ export default {
   * */
   data () {
     return {
+      mouse1: false,
       irregularVerbs: verbs,
       userAnswer: { present: [], past: [], pastParticiple: [], translate: [] },
       putOption: { present: true, past: true, pastParticiple: true, translate: true },
@@ -110,6 +116,9 @@ export default {
     }
   },
   methods: {
+    mouseOver () {
+      this.mouse1 = !this.mouse1
+    },
     generateRandomWord () {
       const maxIndex = this.irregularVerbs.length - 1
       const currentItem = Math.floor(Math.random() * (maxIndex + 1))
@@ -317,5 +326,16 @@ export default {
   .von{
     margin-left: auto;
     margin-right: auto;
+  }
+  .userAnswer{
+  }
+  .userAnswer:hover .correctAnswer{
+    transform: rotateX(0deg);
+  }
+  .correctAnswer{
+    transform: rotateX(-90deg);
+  }
+  .showCorrectAnswer{
+    transform: rotateX(0deg);
   }
 </style>
