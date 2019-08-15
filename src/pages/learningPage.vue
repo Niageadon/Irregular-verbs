@@ -7,6 +7,7 @@
         <div class="dragBox">Present
           <div class="contentBox">
             <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="userAnswer.present">
+              <!--Ответ пользователя-->
               <q-card v-on:mouseover="mouseOver" v-on:mouseleave="mouseOver"
                       class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
                       v-bind:class="{fail: (!answerValidation.present && answerValidation.validationDone)}"
@@ -15,6 +16,7 @@
                       {{item}}
                 <!-- всплывающее окно при наведение на неверный ответ -->
               </q-card>
+              <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
               <q-card v-if="(!answerValidation.present && answerValidation.validationDone && mouse1)" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer">
                 Correct: {{correctAnswer.present}}
               </q-card>
@@ -330,10 +332,10 @@ export default {
   .userAnswer{
   }
   .userAnswer:hover .correctAnswer{
-    transform: rotateX(0deg);
+    transform: rotate3d(1, 0, 0, 0turn);
   }
   .correctAnswer{
-    transform: rotateX(-90deg);
+    transform: rotate3d(1, 0, 0, 0.5turn);
   }
   .showCorrectAnswer{
     transform: rotateX(0deg);
