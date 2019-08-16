@@ -19,6 +19,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "quasar": "^1.0.0-beta.0",
+    "scss-loader": "0.0.1",
     "vue": "latest",
     "vuedraggable": "^2.21.0",
     "vuex": "latest"

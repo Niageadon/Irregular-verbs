@@ -1,36 +1,34 @@
 <template>
   <div class="row justify-center row" >
-    <div class="q-mt-lg contentContainer row col-xs-12 col-sm-9 q-gutter-md justify-around q-mx-auto ">
-      <div class="contentItem col-5 "
+    <div class="q-mt-lg UserAnswers row col-xs-12 col-sm-9 q-gutter-md justify-around q-mx-auto ">
+      <div class="UserAnswers__answerContainer_id_1 col-5 "
             :class="{success: (answerValidation.present && answerValidation.validationDone),
-            fail: (!answerValidation.present && answerValidation.validationDone)}">
-        <div class="dragBox">Present
-          <div class="contentBox">
-            <draggable @change="putOption['present'] = !putOption['present']" class="dragBox" v-bind="getPresentOption" v-model="userAnswer.present">
+            fail: (!answerValidation.present && answerValidation.validationDone)}">Present
+            <draggable @change="putOption['present'] = !putOption['present']" class="UserAnswers__userAnswer_id_1" v-bind="getPresentOption" v-model="userAnswer.present">
               <!--Ответ пользователя-->
-              <q-card v-on:mouseover="mouseOver" v-on:mouseleave="mouseOver"
-                      class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
-                      v-bind:class="{fail: (!answerValidation.present && answerValidation.validationDone)}"
-                      outlined rounded v-for="(item, index) in userAnswer.present" :key="index">
-                      {{item.name}}
-                      {{item}}
-                <!-- всплывающее окно при наведение на неверный ответ -->
-              </q-card>
-              <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
-              <q-card v-if="(!answerValidation.present && answerValidation.validationDone && mouse1)" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer">
-                Correct: {{correctAnswer.present}}
-              </q-card>
+              <div class="hover">
+                <q-card class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
+                  v-on:mouseover="mouseOver" v-on:mouseleave="mouseOver"
+                        v-bind:class="{fail: (!answerValidation.present && answerValidation.validationDone)}"
+                        outlined rounded v-for="(item, index) in userAnswer.present" :key="index">
+                        {{item.name}}
+                        {{item}}
+                  <!-- всплывающее окно при наведение на неверный ответ -->
+                </q-card>
+                <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
+                <q-card class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer_id_1">
+                  123<!--Correct: {{correctAnswer.present}}-->
+                </q-card>
+              </div>
             </draggable>
           </div>
-        </div>
-      </div>
       <!--------------------------2------------------------>
-      <div class="contentItem col-5 "
+      <div class="UserAnswers__answerContainer_id_2 col-5 "
            :class="{success: (answerValidation.past && answerValidation.validationDone),
             fail: (!answerValidation.past && answerValidation.validationDone)}">
-        <div class="dragBox" >Past
-          <div class="contentBox">
-            <draggable class="dragBox" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
+        <div class="UserAnswers__dragContainer" >Past
+          <div class="UserAnswers__userAnswer_id_1">
+            <draggable class="UserAnswers__dragContainer" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used q-mx-none" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
               {{item}}
                 <q-tooltip v-if="answerValidation.validationDone && !answerValidation.past" content-class="bg-indigo" :offset="[0, 0]">
@@ -42,12 +40,12 @@
         </div>
       </div>
       <!--------------------------3------------------------>
-      <div class="contentItem col-5 "
+      <div class="UserAnswers__answerContainer_id_3 col-5 "
            :class="{success: (answerValidation.pastParticiple && answerValidation.validationDone),
             fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">
-        <div class="dragBox" >Participle
-          <div class="contentBox">
-            <draggable class="dragBox" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
+        <div class="UserAnswers__dragContainer" >Participle
+          <div class="UserAnswers__userAnswer_id_1">
+            <draggable class="UserAnswers__dragContainer" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
                 {{item}}
                 <q-tooltip v-if="answerValidation.validationDone && !answerValidation.pastParticiple" content-class="bg-indigo" :offset="[0, 0]">
@@ -59,12 +57,12 @@
         </div>
       </div>
       <!--------------------------4------------------------>
-      <div class="contentItem col-5 "
+      <div class="UserAnswers__answerContainer_id_4 col-5 "
            :class="{success: (answerValidation.translate && answerValidation.validationDone),
             fail: (!answerValidation.translate && answerValidation.validationDone)}">
-        <div class="dragBox">Translate
-          <div class="contentBox">
-            <draggable class="dragBox" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
+        <div class="UserAnswers__dragContainer">Translate
+          <div class="UserAnswers__userAnswer_id_1">
+            <draggable class="UserAnswers__dragContainer" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index">
                 {{item.name}}
                 {{item}}
@@ -83,7 +81,7 @@
     <q-btn @click="validateAnswer" :disable="answerValidation.validationDone" style="background-color: #4da260" class="q-mt-md col-5 q-mx-sm">{{buttonMode}}</q-btn>
     <q-btn @click="nextWord" :disable="!answerValidation.validationDone" style="background-color: #4da260" class="q-mt-md col-5 q-mx-sm">Next</q-btn>
     </div>
-    <!-------------------------------------------------------->
+    <!-------------------variant-answers---------------------->
     <draggable v-model="variantsToChose" class="variantsContainer q-ma-none row col-sm-9 col-xs-12 q-gutter-md  q-mt-lg justify-around" v-bind="getVariantOption" >
       <q-card v-for="(item, index) in variantsToChose" :key="index" outlined rounded class="draggableItem col-xs-5 col-md-5 noSelect q-mx-none" >
         {{item}}
@@ -265,11 +263,11 @@ export default {
 </script>
 
 <style scoped>
-  .dragBox{
+  .UserAnswers__dragContainer{
     min-width: 100px;
     min-height: 40px;
   }
-  .contentContainer{
+  .UserAnswers{
     background: #1F2833;
     border-radius: 25px;
     min-width: 100px;
@@ -296,21 +294,21 @@ export default {
     padding-top: 20px;
     padding-bottom: 20px;
   }
-  .contentItem{
+  .UserAnswers__answerContainer_id_1,.UserAnswers__answerContainer_id_2,.UserAnswers__answerContainer_id_3,.UserAnswers__answerContainer_id_4{
     background: #C5C6C7;
     min-height: 40px;
-    border-radius: 15px;
+    border-radius: 25px;
     text-align: center;
   }
-  .contentItem.fail{
+  .fail{
     background-color: #98353D;
     transition: 0.8s;
   }
-  .contentItem.success{
+  .success{
     background-color: #39812D;
     transition: 0.8s;
   }
-  .contentBox{
+  .UserAnswers__userAnswer_id_1{
     background-color: rgb(251, 251, 251);
     min-height: 40px;
     border-radius: 5px;
@@ -325,19 +323,21 @@ export default {
     -o-user-select: none;
     user-select: none;
   }
-  .von{
-    margin-left: auto;
-    margin-right: auto;
-  }
   .userAnswer{
+    position: absolute;
+    width: 100%;
+    z-index: 2;
   }
-  .userAnswer:hover .correctAnswer{
-    transform: rotate3d(1, 0, 0, 0turn);
+  .hover:hover .correctAnswer_id_1{
+    z-index: 3;
   }
-  .correctAnswer{
-    transform: rotate3d(1, 0, 0, 0.5turn);
+  .correctAnswer_id_1{
+    position: absolute;
+    width: 100%;
+    z-index: 1;
   }
-  .showCorrectAnswer{
-    transform: rotateX(0deg);
+  .hover{
+    transition: transform 1s; /* Animate the transform properties */
+    transform-style: preserve-3d; /* <-NB */
   }
 </style>
