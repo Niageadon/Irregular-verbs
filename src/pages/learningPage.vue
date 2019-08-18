@@ -1,14 +1,14 @@
 <template>
   <div class="row justify-center row" >
     <div class="q-mt-lg UserAnswers row col-xs-12 col-sm-9 q-gutter-md justify-around q-mx-auto ">
-      <div class="UserAnswers__answerContainer_id_1 col-5 "
+      <div class="UserAnswers__answerTemplate_id_1 col-5 "
             :class="{success: (answerValidation.present && answerValidation.validationDone),
             fail: (!answerValidation.present && answerValidation.validationDone)}">Present
-            <draggable @change="putOption['present'] = !putOption['present']" class="UserAnswers__userAnswer_id_1" v-bind="getPresentOption" v-model="userAnswer.present">
+            <draggable class="UserAnswers__dragTemplate_id_1" @change="putOption['present'] = !putOption['present']" v-bind="getPresentOption" v-model="userAnswer.present">
               <!--Ответ пользователя-->
-              <div class="hover">
+              <div @mouseover="test1.focused = true" @mouseleave="test1.focused = false"
+                   v-bind:class="{showAnswer: test1.focused && answerValidation.validationDone}" class="UserAnswers__userAnswer_id_1">
                 <q-card class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
-                  v-on:mouseover="mouseOver" v-on:mouseleave="mouseOver"
                         v-bind:class="{fail: (!answerValidation.present && answerValidation.validationDone)}"
                         outlined rounded v-for="(item, index) in userAnswer.present" :key="index">
                         {{item.name}}
@@ -27,7 +27,7 @@
            :class="{success: (answerValidation.past && answerValidation.validationDone),
             fail: (!answerValidation.past && answerValidation.validationDone)}">
         <div class="UserAnswers__dragContainer" >Past
-          <div class="UserAnswers__userAnswer_id_1">
+          <div class="UserAnswers__dragTemplate_id_1">
             <draggable class="UserAnswers__dragContainer" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used q-mx-none" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
               {{item}}
@@ -44,7 +44,7 @@
            :class="{success: (answerValidation.pastParticiple && answerValidation.validationDone),
             fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">
         <div class="UserAnswers__dragContainer" >Participle
-          <div class="UserAnswers__userAnswer_id_1">
+          <div class="UserAnswers__dragTemplate_id_1">
             <draggable class="UserAnswers__dragContainer" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
                 {{item}}
@@ -61,7 +61,7 @@
            :class="{success: (answerValidation.translate && answerValidation.validationDone),
             fail: (!answerValidation.translate && answerValidation.validationDone)}">
         <div class="UserAnswers__dragContainer">Translate
-          <div class="UserAnswers__userAnswer_id_1">
+          <div class="UserAnswers__dragTemplate_id_1">
             <draggable class="UserAnswers__dragContainer" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
               <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index">
                 {{item.name}}
@@ -104,7 +104,7 @@ export default {
   * */
   data () {
     return {
-      mouse1: false,
+      test1: { focused: false },
       irregularVerbs: verbs,
       userAnswer: { present: [], past: [], pastParticiple: [], translate: [] },
       putOption: { present: true, past: true, pastParticiple: true, translate: true },
@@ -116,9 +116,6 @@ export default {
     }
   },
   methods: {
-    mouseOver () {
-      this.mouse1 = !this.mouse1
-    },
     generateRandomWord () {
       const maxIndex = this.irregularVerbs.length - 1
       const currentItem = Math.floor(Math.random() * (maxIndex + 1))
@@ -294,12 +291,13 @@ export default {
     padding-top: 20px;
     padding-bottom: 20px;
   }
-  .UserAnswers__answerContainer_id_1,.UserAnswers__answerContainer_id_2,.UserAnswers__answerContainer_id_3,.UserAnswers__answerContainer_id_4{
+  .UserAnswers__answerTemplate_id_1,.UserAnswers__answerContainer_id_2,.UserAnswers__answerContainer_id_3,.UserAnswers__answerContainer_id_4{
     background: #C5C6C7;
     min-height: 40px;
     border-radius: 25px;
     text-align: center;
   }
+  /**/
   .fail{
     background-color: #98353D;
     transition: 0.8s;
@@ -308,7 +306,8 @@ export default {
     background-color: #39812D;
     transition: 0.8s;
   }
-  .UserAnswers__userAnswer_id_1{
+  /**/
+  .UserAnswers__dragTemplate_id_1{
     background-color: rgb(251, 251, 251);
     min-height: 40px;
     border-radius: 5px;
@@ -325,19 +324,22 @@ export default {
   }
   .userAnswer{
     position: absolute;
+    backface-visibility: hidden;
     width: 100%;
     z-index: 2;
+    transform: translateZ(20px);
   }
-  .hover:hover .correctAnswer_id_1{
-    z-index: 3;
-  }
-  .correctAnswer_id_1{
-    position: absolute;
+    .correctAnswer_id_1{
+    background-color: #4da260;
     width: 100%;
-    z-index: 1;
+    transform: rotateX(90deg) translateZ(20px);
+    backface-visibility: hidden;
   }
-  .hover{
-    transition: transform 1s; /* Animate the transform properties */
+    .UserAnswers__userAnswer_id_1{
+    transition: transform .2s; /* Animate the transform properties */
     transform-style: preserve-3d; /* <-NB */
   }
+    .showAnswer{
+      transform: rotateX(-90deg); /* Text bleed at 90º */
+    }
 </style>
