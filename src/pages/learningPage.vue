@@ -1,15 +1,16 @@
 <template>
   <div class="row justify-center row" >
     <div class="q-mt-lg UserAnswers row col-xs-12 col-sm-9 q-gutter-md justify-around q-mx-auto ">
-      <div class="UserAnswers__answerTemplate_id_1 col-5 "
+      <!--------------------------1------------------------>
+      <div class="UserAnswers__answerTemplate col-5 "
             :class="{success: (answerValidation.present && answerValidation.validationDone),
             fail: (!answerValidation.present && answerValidation.validationDone)}">Present
-            <draggable class="UserAnswers__dragTemplate_id_1" @change="putOption['present'] = !putOption['present']" v-bind="getPresentOption" v-model="userAnswer.present">
+            <draggable class="UserAnswers__dragTemplate" @change="putOption['present'] = !putOption['present']"
+                       v-bind="getPresentOption" v-model="userAnswer.present">
               <!--Ответ пользователя-->
-              <div @mouseover="test1.focused = true" @mouseleave="test1.focused = false"
-                   v-bind:class="{showAnswer: test1.focused && answerValidation.validationDone}" class="UserAnswers__userAnswer_id_1">
+              <div @mouseover="hover.present = true" @mouseleave="hover.present = false"
+                   v-bind:class="{showAnswer: (hover.present && !answerValidation.present && answerValidation.validationDone) }" class="UserAnswers__userAnswer">
                 <q-card class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
-                        v-bind:class="{fail: (!answerValidation.present && answerValidation.validationDone)}"
                         outlined rounded v-for="(item, index) in userAnswer.present" :key="index">
                         {{item.name}}
                         {{item}}
@@ -17,63 +18,80 @@
                 </q-card>
                 <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
                 <!-- v-if для того, чтобы скрыть карту до валидации. В противном случае она добавляет дополнительное поле для grad-а -->
-                <q-card v-if="answerValidation.validationDone" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer_id_1">
-                  123<!--Correct: {{correctAnswer.present}}-->
+                <q-card v-if="answerValidation.validationDone" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer">
+                  Correct: {{correctAnswer.present}}
                 </q-card>
               </div>
             </draggable>
           </div>
       <!--------------------------2------------------------>
-      <div class="UserAnswers__answerContainer_id_2 col-5 "
+      <div class="UserAnswers__answerTemplate col-5 "
            :class="{success: (answerValidation.past && answerValidation.validationDone),
-            fail: (!answerValidation.past && answerValidation.validationDone)}">
-        <div class="UserAnswers__dragContainer" >Past
-          <div class="UserAnswers__dragTemplate_id_1">
-            <draggable class="UserAnswers__dragContainer" @change="putOption['past'] = !putOption['past']" v-model="userAnswer.past" v-bind="getPastOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used q-mx-none" outlined rounded v-for="(item, index) in userAnswer.past" :key="index"> {{item.name}}
+            fail: (!answerValidation.past && answerValidation.validationDone)}">Past
+        <draggable class="UserAnswers__dragTemplate" @change="putOption['past'] = !putOption['past']"
+                   v-bind="getPastOption" v-model="userAnswer.past">
+          <!--Ответ пользователя-->
+          <div @mouseover="hover.past = true" @mouseleave="hover.past = false"
+               v-bind:class="{showAnswer: (hover.past && !answerValidation.past  && answerValidation.validationDone) }" class="UserAnswers__userAnswer">
+            <q-card class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
+                    outlined rounded v-for="(item, index) in userAnswer.past" :key="index">
+              {{item.name}}
               {{item}}
-                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.past" content-class="bg-indigo" :offset="[0, 0]">
-                  Correct answer is: {{correctAnswer.past}}
-                </q-tooltip>
-              </q-card>
-            </draggable>
+              <!-- всплывающее окно при наведение на неверный ответ -->
+            </q-card>
+            <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
+            <!-- v-if для того, чтобы скрыть карту до валидации. В противном случае она добавляет дополнительное поле для grad-а -->
+            <q-card v-if="answerValidation.validationDone" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer">
+              Correct: {{correctAnswer.past}}
+            </q-card>
           </div>
-        </div>
+        </draggable>
       </div>
       <!--------------------------3------------------------>
-      <div class="UserAnswers__answerContainer_id_3 col-5 "
+      <div class="UserAnswers__answerTemplate col-5 "
            :class="{success: (answerValidation.pastParticiple && answerValidation.validationDone),
-            fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">
-        <div class="UserAnswers__dragContainer" >Participle
-          <div class="UserAnswers__dragTemplate_id_1">
-            <draggable class="UserAnswers__dragContainer" @change="putOption['pastParticiple'] = !putOption['pastParticiple']" v-model="userAnswer.pastParticiple" v-bind="getPPOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index"> {{item.name}}
-                {{item}}
-                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.pastParticiple" content-class="bg-indigo" :offset="[0, 0]">
-                  Correct answer is: {{correctAnswer.pastParticiple}}
-                </q-tooltip>
-              </q-card>
-            </draggable>
+            fail: (!answerValidation.pastParticiple && answerValidation.validationDone)}">pastParticiple
+        <draggable class="UserAnswers__dragTemplate" @change="putOption['pastParticiple'] = !putOption['pastParticiple']"
+                   v-bind="getPPOption" v-model="userAnswer.pastParticiple">
+          <!--Ответ пользователя-->
+          <div @mouseover="hover.pastParticiple = true" @mouseleave="hover.pastParticiple = false"
+               v-bind:class="{showAnswer: (hover.pastParticiple && !answerValidation.pastParticiple && answerValidation.validationDone) }" class="UserAnswers__userAnswer">
+            <q-card class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
+                    outlined rounded v-for="(item, index) in userAnswer.pastParticiple" :key="index">
+              {{item.name}}
+              {{item}}
+              <!-- всплывающее окно при наведение на неверный ответ -->
+            </q-card>
+            <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
+            <!-- v-if для того, чтобы скрыть карту до валидации. В противном случае она добавляет дополнительное поле для grad-а -->
+            <q-card v-if="answerValidation.validationDone" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer">
+              Correct: {{correctAnswer.pastParticiple}}
+            </q-card>
           </div>
-        </div>
+        </draggable>
       </div>
       <!--------------------------4------------------------>
-      <div class="UserAnswers__answerContainer_id_4 col-5 "
+      <div class="UserAnswers__answerTemplate col-5 "
            :class="{success: (answerValidation.translate && answerValidation.validationDone),
-            fail: (!answerValidation.translate && answerValidation.validationDone)}">
-        <div class="UserAnswers__dragContainer">Translate
-          <div class="UserAnswers__dragTemplate_id_1">
-            <draggable class="UserAnswers__dragContainer" @change="putOption['translate'] = !putOption['translate']" v-model="userAnswer.translate" v-bind="getTranslateOption">
-              <q-card class="col-xs-5 col-md-5 noSelect draggableItem used" outlined rounded v-for="(item, index) in userAnswer.translate" :key="index">
-                {{item.name}}
-                {{item}}
-                <q-tooltip v-if="answerValidation.validationDone && !answerValidation.translate" content-class="bg-indigo" :offset="[10, 10]">
-                  Correct answer is: {{correctAnswer.translate}}
-                </q-tooltip>
-              </q-card>
-            </draggable>
+            fail: (!answerValidation.translate && answerValidation.validationDone)}">Translate
+        <draggable class="UserAnswers__dragTemplate" @change="putOption['translate'] = !putOption['translate']"
+                   v-bind="getTranslateOption" v-model="userAnswer.translate">
+          <!--Ответ пользователя-->
+          <div @mouseover="hover.translate = true" @mouseleave="hover.translate = false"
+               v-bind:class="{showAnswer: (hover.translate && !answerValidation.translate && answerValidation.validationDone) }" class="UserAnswers__userAnswer">
+            <q-card class="col-xs-5 col-md-5 noSelect draggableItem used userAnswer"
+                    outlined rounded v-for="(item, index) in userAnswer.translate" :key="index">
+              {{item.name}}
+              {{item}}
+              <!-- всплывающее окно при наведение на неверный ответ -->
+            </q-card>
+            <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
+            <!-- v-if для того, чтобы скрыть карту до валидации. В противном случае она добавляет дополнительное поле для grad-а -->
+            <q-card v-if="answerValidation.validationDone" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer">
+              Correct: {{correctAnswer.translate}}
+            </q-card>
           </div>
-        </div>
+        </draggable>
       </div>
     </div> <!--userAnswer blank-->
     <!-------------------------------------------------------->
@@ -105,7 +123,7 @@ export default {
   * */
   data () {
     return {
-      test1: { focused: false },
+      hover: { present: false, past: false, pastParticiple: false, translate: false },
       irregularVerbs: verbs,
       userAnswer: { present: [], past: [], pastParticiple: [], translate: [] },
       putOption: { present: true, past: true, pastParticiple: true, translate: true },
@@ -292,7 +310,7 @@ export default {
     padding-top: 20px;
     padding-bottom: 20px;
   }
-  .UserAnswers__answerTemplate_id_1,.UserAnswers__answerContainer_id_2,.UserAnswers__answerContainer_id_3,.UserAnswers__answerContainer_id_4{
+  .UserAnswers__answerTemplate{
     background: #C5C6C7;
     min-height: 40px;
     border-radius: 25px;
@@ -304,11 +322,11 @@ export default {
     transition: 0.8s;
   }
   .success{
-    background-color: #39812D;
+    background-color: #4da260;
     transition: 0.8s;
   }
   /**/
-  .UserAnswers__dragTemplate_id_1{
+  .UserAnswers__dragTemplate{
     background-color: rgb(251, 251, 251);
     min-height: 40px;
     border-radius: 5px;
@@ -330,17 +348,19 @@ export default {
     z-index: 2;
     transform: translateZ(20px);
   }
-    .correctAnswer_id_1{
+    .correctAnswer{
     background-color: #4da260;
-    width: 100%;
+      width: 100%;
     transform: rotateX(90deg) translateZ(20px);
     backface-visibility: hidden;
   }
-    .UserAnswers__userAnswer_id_1{
+    .UserAnswers__userAnswer{
     transition: transform .2s; /* Animate the transform properties */
+    transition-delay: 0.1s;
     transform-style: preserve-3d; /* <-NB */
   }
     .showAnswer{
+      /*используется при наведении на направильный ответ*/
       transform: rotateX(-90deg); /* Text bleed at 90º */
     }
 </style>
