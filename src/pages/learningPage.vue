@@ -16,7 +16,8 @@
                   <!-- всплывающее окно при наведение на неверный ответ -->
                 </q-card>
                 <!--Верный ответ. Открывается при наличие ошибки и ховере на неё.-->
-                <q-card class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer_id_1">
+                <!-- v-if для того, чтобы скрыть карту до валидации. В противном случае она добавляет дополнительное поле для grad-а -->
+                <q-card v-if="answerValidation.validationDone" class="col-xs-5 col-md-5 noSelect draggableItem correctAnswer_id_1">
                   123<!--Correct: {{correctAnswer.present}}-->
                 </q-card>
               </div>
