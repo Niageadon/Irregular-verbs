@@ -1,5 +1,5 @@
 // Configuration for your app
-
+const path = require('path')
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
@@ -72,6 +72,12 @@ module.exports = function (ctx) {
       // analyze: true,
       // extractCSS: false,
       extendWebpack (cfg) {
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+
+          // Add your own alias like this
+          scss: path.resolve(__dirname, './src/css/scss')
+        }
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,

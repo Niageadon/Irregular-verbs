@@ -1,0 +1,122 @@
+.iw{
+    /*Блок ответов пользователя*/
+    &__userAnswers{
+        background: #1F2833;
+        border-radius: 25px;
+        min-width: 100px;
+        min-height: 40px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        &__dragContainer{
+            min-width: 100px;
+            min-height: 40px;
+        }
+    }
+
+    /*Блок вариантов ответа*/
+    &__variants{
+        background: #1F2833;
+        opacity: .8;
+        border-radius: 25px;
+        min-width: 100px;
+        min-height: 40px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    &__draggableItem{
+        min-height: 40px;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 40px;
+        background: #66FCF1;
+        &.used{
+            background: #66FCF1;
+        }
+    }
+}
+
+.UserAnswers__dragContainer{
+    min-width: 100px;
+    min-height: 40px;
+}
+.UserAnswers{
+  background: #1F2833;
+  border-radius: 25px;
+  min-width: 100px;
+  min-height: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.draggableItem{
+  min-height: 40px;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 40px;
+  background: #66FCF1;
+}
+.draggableItem.used{
+  background: #66FCF1;
+}
+.variantsContainer{
+  background: #1F2833;
+  opacity: .8;
+  border-radius: 25px;
+  min-width: 100px;
+  min-height: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.UserAnswers__answerTemplate{
+  background: #C5C6C7;
+  min-height: 40px;
+  border-radius: 25px;
+  text-align: center;
+}
+/**/
+.fail{
+  background-color: #98353D;
+  transition: 0.8s;
+}
+.success{
+  background-color: #4da260;
+  transition: 0.8s;
+}
+/**/
+.UserAnswers__dragTemplate{
+  background-color: rgb(251, 251, 251);
+  min-height: 40px;
+  border-radius: 5px;
+  min-width: 100px;
+}
+.noSelect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.userAnswer{
+  position: absolute;
+  backface-visibility: hidden;
+  width: 100%;
+  z-index: 2;
+  transform: translateZ(20px);
+}
+.correctAnswer{
+  background-color: #4da260;
+  width: 100%;
+  transform: rotateX(90deg) translateZ(20px);
+  backface-visibility: hidden;
+}
+.UserAnswers__userAnswer{
+  transition: transform .2s; /* Animate the transform properties */
+  transition-delay: 0.1s;
+  transform-style: preserve-3d; /* <-NB */
+}
+.showAnswer{
+  /*используется при наведении на направильный ответ*/
+  transform: rotateX(-90deg); /* Text bleed at 90º */
+}
